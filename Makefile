@@ -13,3 +13,8 @@ build:
 install: build
 	mkdir -p ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
 	mv ${BINARY} ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
+
+uninstall:
+	rm -f .terraform.lock.hcl
+	rm -rf .terraform/providers/${HOSTNAME}/${NAMESPACE}/${NAME}
+	rm -rf ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}
