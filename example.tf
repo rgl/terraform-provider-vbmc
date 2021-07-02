@@ -11,7 +11,7 @@ terraform {
     # see https://github.com/dmacvicar/terraform-provider-libvirt
     libvirt = {
       source = "dmacvicar/libvirt"
-      version = "0.6.9-pre4"
+      version = "0.6.9"
     }
     # see https://registry.terraform.io/providers/rgl/vbmc
     # see https://github.com/rgl/terraform-provider-vbmc
