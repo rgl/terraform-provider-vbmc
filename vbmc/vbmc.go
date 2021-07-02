@@ -49,7 +49,11 @@ func execVbmc(args ...string) (string, error) {
 }
 
 func Create(domainName string, address string, port int, username string, password string) (*Vbmc, error) {
-	_, err := execVbmc(
+	err := Delete(domainName)
+	if err != nil {
+		return nil, err
+	}
+	_, err = execVbmc(
 		"add",
 		domainName,
 		"--address", address,
