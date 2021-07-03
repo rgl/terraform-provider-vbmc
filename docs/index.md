@@ -10,3 +10,5 @@ description: |-
 This manages a [libvirt_domain](https://github.com/dmacvicar/terraform-provider-libvirt) [VirtualBMC (vbmc)](https://github.com/openstack/virtualbmc) through the [`vbmc_vbmc` resource](resources/vbmc).
 
 You must install VirtualBMC and have it running before using this provider. See [rgl/terraform-provider-vbmc](https://github.com/rgl/terraform-provider-vbmc).
+
+For a Redfish based provider see the [rgl/terraform-provider-sushy-vbmc](https://github.com/rgl/terraform-provider-sushy-vbmc) source repository.

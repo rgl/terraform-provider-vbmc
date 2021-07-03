@@ -4,6 +4,8 @@
 
 This manages a [libvirt_domain](https://github.com/dmacvicar/terraform-provider-libvirt) [VirtualBMC (vbmc)](https://github.com/openstack/virtualbmc) through the [`vbmc_vbmc` resource](https://github.com/rgl/terraform-provider-vbmc/blob/main/docs/resources/vbmc.md).
 
+For a Redfish based provider see the [rgl/terraform-provider-sushy-vbmc](https://github.com/rgl/terraform-provider-sushy-vbmc) source repository.
+
 ## Usage (Ubuntu 20.04 host)
 
 Install Terraform:
