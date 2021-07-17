@@ -2,7 +2,6 @@ package vbmc
 
 import (
 	"context"
-	"strings"
 
 	"github.com/hashicorp/terraform-plugin-sdk/v2/diag"
 	"github.com/hashicorp/terraform-plugin-sdk/v2/helper/schema"
@@ -27,7 +26,8 @@ func resourceVbmc() *schema.Resource {
 			},
 			"port": {
 				Type:     schema.TypeInt,
-				Required: true,
+				Computed: true,
+				Optional: true,
 				ForceNew: true,
 			},
 			"username": {
@@ -67,16 +67,14 @@ func resourceVbmcCreate(ctx context.Context, d *schema.ResourceData, m interface
 func resourceVbmcRead(ctx context.Context, d *schema.ResourceData, m interface{}) diag.Diagnostics {
 	vbmc, err := Get(d.Id())
 	if err != nil {
-		if execError, ok := err.(*VbmcExecError); ok {
-			if strings.Contains(execError.Stderr, "No domain with matching name") {
-				d.SetId("")
-				return diag.Diagnostics{}
-			}
-		}
 		return diag.FromErr(err)
 	}
 
-	d.Set("port", vbmc.Port)
+	if vbmc == nil {
+		d.SetId("")
+	} else {
+		d.Set("port", vbmc.Port)
+	}
 
 	return diag.Diagnostics{}
 }

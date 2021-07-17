@@ -17,7 +17,7 @@ terraform {
     # see https://github.com/rgl/terraform-provider-vbmc
     vbmc = {
       source = "rgl/vbmc"
-      version = "0.2.0"
+      version = "0.3.0"
     }
   }
 }
@@ -44,7 +44,7 @@ output "vbmc_address" {
 
 resource "vbmc_vbmc" "example" {
   domain_name = libvirt_domain.example.name
-  port = 6230
+  port = 6230 # NB when port is unset, the port will be automatically allocated.
 }
 
 # see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.6.10/website/docs/r/domain.html.markdown

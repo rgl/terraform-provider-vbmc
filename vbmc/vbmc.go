@@ -1,8 +1,8 @@
 package vbmc
 
 import (
+	"bufio"
 	"bytes"
-	"encoding/json"
 	"fmt"
 	"os/exec"
 	"strconv"
@@ -24,10 +24,14 @@ type Vbmc struct {
 	Port       int
 }
 
-func execVbmc(args ...string) (string, error) {
+func getContainerName(domainName string) string {
+	return fmt.Sprintf("vbmc-emulator-%s", domainName)
+}
+
+func docker(args ...string) (string, error) {
 	var stderr, stdout bytes.Buffer
 
-	cmd := exec.Command("vbmc", args...)
+	cmd := exec.Command("docker", args...)
 	cmd.Stderr = &stderr
 	cmd.Stdout = &stdout
 
@@ -53,28 +57,53 @@ func Create(domainName string, address string, port int, username string, passwo
 	if err != nil {
 		return nil, err
 	}
-	_, err = execVbmc(
-		"add",
-		domainName,
-		"--address", address,
-		"--port", strconv.Itoa(port),
-		"--username", username,
-		"--password", password)
+	_, err = docker(
+		"run",
+		"--rm",
+		"--name",
+		getContainerName(domainName),
+		"--detach",
+		"-v",
+		"/var/run/libvirt/libvirt-sock:/var/run/libvirt/libvirt-sock",
+		"-v",
+		"/var/run/libvirt/libvirt-sock-ro:/var/run/libvirt/libvirt-sock-ro",
+		"-e",
+		fmt.Sprintf("VBMC_EMULATOR_DOMAIN_NAME=%s", domainName),
+		"-e",
+		fmt.Sprintf("VBMC_EMULATOR_USERNAME=%s", username),
+		"-e",
+		fmt.Sprintf("VBMC_EMULATOR_PASSWORD=%s", password),
+		"-p",
+		fmt.Sprintf("%s:%d:6230", address, port),
+		"ruilopes/vbmc-emulator")
 	if err != nil {
 		return nil, err
 	}
-	_, err = execVbmc("start", domainName)
+	vbmc, err := Get(domainName)
 	if err != nil {
 		return nil, err
 	}
-	return Get(domainName)
+	if vbmc == nil {
+		return nil, fmt.Errorf("failed to create the vbmc container; it probably died for unknown reasons")
+	}
+	return vbmc, nil
 }
 
 func Delete(domainName string) error {
-	_, err := execVbmc("delete", domainName)
+	containerName := getContainerName(domainName)
+	_, err := docker("kill", "--signal", "INT", containerName)
 	if err != nil {
 		if execError, ok := err.(*VbmcExecError); ok {
-			if strings.Contains(execError.Stderr, "No domain with matching name") {
+			if strings.Contains(execError.Stderr, "No such container") {
+				return nil
+			}
+		}
+		return err
+	}
+	_, err = docker("wait", containerName)
+	if err != nil {
+		if execError, ok := err.(*VbmcExecError); ok {
+			if strings.Contains(execError.Stderr, "No such container") {
 				return nil
 			}
 		}
@@ -84,33 +113,38 @@ func Delete(domainName string) error {
 }
 
 func Get(domainName string) (*Vbmc, error) {
-	data, err := execVbmc("show", "-f", "json", "--noindent", domainName)
+	stdout, err := docker("port", getContainerName(domainName), "6230")
 	if err != nil {
+		if execError, ok := err.(*VbmcExecError); ok {
+			if strings.Contains(execError.Stderr, "No such container") {
+				return nil, nil
+			}
+		}
 		return nil, err
 	}
 
-	var properties []struct {
-		Property string
-		Value    json.RawMessage // NB the Value type depends on the Property. It can be a string, number, etc.
+	vbmc := &Vbmc{
+		DomainName: domainName,
 	}
 
-	if err := json.Unmarshal([]byte(data), &properties); err != nil {
-		return nil, fmt.Errorf("failed to parse vbmc output: %v", err)
-	}
-
-	vbmc := &Vbmc{}
-
-	for _, property := range properties {
-		switch property.Property {
-		case "domain_name":
-			if err := json.Unmarshal(property.Value, &vbmc.DomainName); err != nil {
-				return nil, fmt.Errorf("failed to parse vbmc output domain_name: %v", err)
-			}
-		case "port":
-			if err := json.Unmarshal(property.Value, &vbmc.Port); err != nil {
-				return nil, fmt.Errorf("failed to parse vbmc output port: %v", err)
-			}
+	scanner := bufio.NewScanner(strings.NewReader(stdout))
+	for scanner.Scan() {
+		// e.g. 0.0.0.0:6230
+		line := scanner.Text()
+		parts := strings.SplitN(line, ":", -1)
+		if len(parts) < 1 {
+			continue
 		}
+		port, err := strconv.Atoi(parts[len(parts)-1])
+		if err != nil {
+			return nil, err
+		}
+		vbmc.Port = port
+	}
+
+	err = scanner.Err()
+	if err != nil {
+		return nil, err
 	}
 
 	return vbmc, nil

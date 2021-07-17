@@ -19,19 +19,10 @@ sudo install terraform /usr/local/bin
 rm terraform terraform_*_linux_amd64.zip
 ```
 
-Install VirtualBMC and ipmitool:
+Install ipmitool:
 
 ```bash
-# see https://github.com/openstack/virtualbmc
-# see https://docs.openstack.org/virtualbmc/latest/user/index.html
-python3 -m pip install virtualbmc
 sudo apt-get install -y ipmitool
-```
-
-Start the virtual bmc daemon:
-
-```bash
-vbmcd
 ```
 
 Build the development version of this provider and install it:
@@ -57,13 +48,6 @@ Show information about the libvirt/qemu guest:
 ```bash
 virsh dumpxml terraform_vbmc_example
 virsh qemu-agent-command terraform_vbmc_example '{"execute":"guest-info"}' --pretty
-```
-
-Show information about the VM vbmc:
-
-```bash
-vbmc list
-vbmc show terraform_vbmc_example
 ```
 
 Create the `vbmc_ipmitool` alias to make `ipmitool` simpler to use:
