@@ -8,11 +8,13 @@ For a Redfish based provider see the [rgl/terraform-provider-sushy-vbmc](https:/
 
 ## Usage (Ubuntu 20.04 host)
 
-Install Terraform:
+Install docker, vagrant, vagrant-libvirt, and the [Ubuntu Base Box](https://github.com/rgl/ubuntu-vagrant).
+
+Install terraform:
 
 ```bash
-wget https://releases.hashicorp.com/terraform/1.0.1/terraform_1.0.1_linux_amd64.zip
-unzip terraform_1.0.1_linux_amd64.zip
+wget https://releases.hashicorp.com/terraform/1.0.2/terraform_1.0.2_linux_amd64.zip
+unzip terraform_1.0.2_linux_amd64.zip
 sudo install terraform /usr/local/bin
 rm terraform terraform_*_linux_amd64.zip
 ```
