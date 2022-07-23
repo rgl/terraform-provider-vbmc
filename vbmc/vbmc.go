@@ -74,7 +74,7 @@ func Create(domainName string, address string, port int, username string, passwo
 		"-e",
 		fmt.Sprintf("VBMC_EMULATOR_PASSWORD=%s", password),
 		"-p",
-		fmt.Sprintf("%s:%d:6230", address, port),
+		fmt.Sprintf("%s:%d:6230/udp", address, port),
 		"ruilopes/vbmc-emulator")
 	if err != nil {
 		return nil, err
@@ -113,7 +113,7 @@ func Delete(domainName string) error {
 }
 
 func Get(domainName string) (*Vbmc, error) {
-	stdout, err := docker("port", getContainerName(domainName), "6230")
+	stdout, err := docker("port", getContainerName(domainName), "6230/udp")
 	if err != nil {
 		if execError, ok := err.(*VbmcExecError); ok {
 			if strings.Contains(execError.Stderr, "No such container") {
