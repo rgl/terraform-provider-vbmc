@@ -1,6 +1,8 @@
 # About
 
-[![build](https://github.com/rgl/terraform-provider-vbmc/actions/workflows/build.yml/badge.svg)](https://github.com/rgl/terraform-provider-vbmc/actions/workflows/build.yml) [![terraform provider](https://img.shields.io/badge/terraform%20provider-rgl%2Fvbmc-blue)](https://registry.terraform.io/providers/rgl/vbmc)
+[![build](https://github.com/rgl/terraform-provider-vbmc/actions/workflows/build.yml/badge.svg)](https://github.com/rgl/terraform-provider-vbmc/actions/workflows/build.yml)
+[![terraform provider](https://img.shields.io/badge/terraform%20provider-rgl%2Fvbmc-blue)](https://registry.terraform.io/providers/rgl/vbmc)
+[![docker image](https://img.shields.io/docker/v/ruilopes/vbmc-emulator?color=blue&label=docker%20image%20ruilopes%2Fvbmc-emulator&sort=semver)](https://hub.docker.com/r/ruilopes/vbmc-emulator/tags)
 
 This manages a [libvirt_domain](https://github.com/dmacvicar/terraform-provider-libvirt) [VirtualBMC (vbmc)](https://github.com/openstack/virtualbmc) through the [`vbmc_vbmc` resource](https://github.com/rgl/terraform-provider-vbmc/blob/main/docs/resources/vbmc_vbmc.md).
 

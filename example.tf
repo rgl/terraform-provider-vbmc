@@ -17,7 +17,7 @@ terraform {
     # see https://github.com/rgl/terraform-provider-vbmc
     vbmc = {
       source = "rgl/vbmc"
-      version = "0.3.0"
+      version = "0.4.0"
     }
   }
 }
