@@ -11,7 +11,7 @@ terraform {
     # see https://github.com/dmacvicar/terraform-provider-libvirt
     libvirt = {
       source = "dmacvicar/libvirt"
-      version = "0.6.10"
+      version = "0.6.14"
     }
     # see https://registry.terraform.io/providers/rgl/vbmc
     # see https://github.com/rgl/terraform-provider-vbmc
@@ -47,10 +47,10 @@ resource "vbmc_vbmc" "example" {
   port = 6230 # NB when port is unset, the port will be automatically allocated.
 }
 
-# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.6.10/website/docs/r/domain.html.markdown
+# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.6.14/website/docs/r/domain.html.markdown
 resource "libvirt_domain" "example" {
   name = var.prefix
-  cpu = {
+  cpu {
     mode = "host-passthrough"
   }
   vcpu = 2
@@ -68,14 +68,14 @@ resource "libvirt_domain" "example" {
 }
 
 # this uses the vagrant ubuntu image imported from https://github.com/rgl/ubuntu-vagrant.
-# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.6.10/website/docs/r/volume.html.markdown
+# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.6.14/website/docs/r/volume.html.markdown
 resource "libvirt_volume" "example_root" {
   name = "${var.prefix}_root.img"
   base_volume_name = "ubuntu-20.04-amd64_vagrant_box_image_0_box.img"
   format = "qcow2"
 }
 
-# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.6.10/website/docs/r/network.markdown
+# see https://github.com/dmacvicar/terraform-provider-libvirt/blob/v0.6.14/website/docs/r/network.markdown
 resource "libvirt_network" "example" {
   name = var.prefix
   mode = "nat"
