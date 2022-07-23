@@ -13,8 +13,8 @@ Install docker, vagrant, vagrant-libvirt, and the [Ubuntu Base Box](https://gith
 Install terraform:
 
 ```bash
-wget https://releases.hashicorp.com/terraform/1.0.2/terraform_1.0.2_linux_amd64.zip
-unzip terraform_1.0.2_linux_amd64.zip
+wget https://releases.hashicorp.com/terraform/1.2.5/terraform_1.2.5_linux_amd64.zip
+unzip terraform_1.2.5_linux_amd64.zip
 sudo install terraform /usr/local/bin
 rm terraform terraform_*_linux_amd64.zip
 ```
