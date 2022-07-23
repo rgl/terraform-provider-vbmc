@@ -21,7 +21,7 @@ build: vbmc-emulator
 	go build -o ${BINARY}
 
 vbmc-emulator:
-	docker build -t ruilopes/vbmc-emulator vbmc-emulator
+	DOCKER_BUILDKIT=1 docker build -t ruilopes/vbmc-emulator vbmc-emulator
 
 install: build
 	mkdir -p ~/.terraform.d/plugins/${HOSTNAME}/${NAMESPACE}/${NAME}/${VERSION}/${OS_ARCH}
