@@ -1,5 +1,6 @@
 .terraform/
 bin/
+dist/
 .terraform.lock.hcl
 terraform.tfstate*
 tfplan
