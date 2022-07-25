@@ -6,7 +6,7 @@ HOSTNAME=registry.terraform.io
 NAMESPACE=rgl
 NAME=vbmc
 BINARY=terraform-provider-${NAME}
-VERSION?=0.4.0
+VERSION?=0.4.1
 OS_ARCH=$(shell go env GOOS)_$(shell go env GOARCH)
 
 default: install
