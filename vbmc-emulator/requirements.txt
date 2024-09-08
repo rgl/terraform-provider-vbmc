@@ -1,1 +1,1 @@
-virtualbmc==2.2.2
+virtualbmc==3.1.0

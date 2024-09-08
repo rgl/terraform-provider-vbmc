@@ -9,13 +9,17 @@ BINARY=terraform-provider-${NAME}
 VERSION?=0.4.1
 OS_ARCH=$(shell go env GOOS)_$(shell go env GOARCH)
 
+# see https://github.com/goreleaser/goreleaser
+# renovate: datasource=github-releases depName=goreleaser/goreleaser extractVersion=^v?(?<version>2\..+)
+GORELEASER_VERSION := 2.2.0
+
 default: install
 
 $(GORELEASER):
-	go install github.com/goreleaser/goreleaser@v1.9.2
+	go install github.com/goreleaser/goreleaser/v2@v$(GORELEASER_VERSION)
 
 release-snapshot: $(GORELEASER)
-	$(GORELEASER) release --snapshot --skip-publish --skip-sign --rm-dist
+	$(GORELEASER) release --snapshot --skip=publish --skip=sign --clean
 
 build: vbmc-emulator
 	go build -o ${BINARY}

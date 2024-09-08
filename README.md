@@ -8,15 +8,15 @@ This manages a [libvirt_domain](https://github.com/dmacvicar/terraform-provider-
 
 For a Redfish based provider see the [rgl/terraform-provider-sushy-vbmc](https://github.com/rgl/terraform-provider-sushy-vbmc) source repository.
 
-## Usage (Ubuntu 20.04 host)
+## Usage (Ubuntu 22.04 host)
 
 Install docker, vagrant, vagrant-libvirt, and the [Ubuntu Base Box](https://github.com/rgl/ubuntu-vagrant).
 
 Install terraform:
 
 ```bash
-wget https://releases.hashicorp.com/terraform/1.2.5/terraform_1.2.5_linux_amd64.zip
-unzip terraform_1.2.5_linux_amd64.zip
+wget https://releases.hashicorp.com/terraform/1.9.5/terraform_1.9.5_linux_amd64.zip
+unzip terraform_1.9.5_linux_amd64.zip
 sudo install terraform /usr/local/bin
 rm terraform terraform_*_linux_amd64.zip
 ```
