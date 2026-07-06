@@ -11,7 +11,7 @@ OS_ARCH=$(shell go env GOOS)_$(shell go env GOARCH)
 
 # see https://github.com/goreleaser/goreleaser
 # renovate: datasource=github-releases depName=goreleaser/goreleaser extractVersion=^v?(?<version>2\..+)
-GORELEASER_VERSION := 2.2.0
+GORELEASER_VERSION := 2.17.0
 
 default: install
 

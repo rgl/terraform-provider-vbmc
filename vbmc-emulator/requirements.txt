@@ -1,1 +1,3 @@
-virtualbmc==3.1.0
+# see https://pypi.org/project/virtualbmc/
+# see https://opendev.org/openstack/virtualbmc
+virtualbmc==3.3.0
