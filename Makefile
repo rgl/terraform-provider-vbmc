@@ -6,7 +6,7 @@ HOSTNAME=registry.terraform.io
 NAMESPACE=rgl
 NAME=vbmc
 BINARY=terraform-provider-${NAME}
-VERSION?=0.5.0
+VERSION?=0.6.0
 OS_ARCH=$(shell go env GOOS)_$(shell go env GOARCH)
 
 # see https://github.com/goreleaser/goreleaser
